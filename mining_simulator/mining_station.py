@@ -14,9 +14,11 @@ class UnloadStation:
         self.units_deposited = 0
 
     def __lt__(self, other) -> bool:
+        """Comparison dunder override on wait time to use min to sort."""
         return self.current_wait_time < other.current_wait_time
 
     def __eq__(self, other) -> bool:
+        """Comparison dunder override on wait time to use min to sort."""
         return self.current_wait_time == other.current_wait_time
 
     def __str__(self) -> str:
@@ -26,6 +28,16 @@ class UnloadStation:
         )
 
     def add_truck_to_queue(self, truck: MiningTruck) -> None:
+        """Add a mining truck to the unloading queue. If there are no other trucks present
+        then the truck can immediately begin unloading. Otherwise the truck will be set to
+        waiting in the queue. Updates the unloading stations current wait time.
+
+        Sets the truck object's timer and action either waiting or unloading.
+
+        Args:
+            truck: an instance of a MiningTruck.
+        """
+
         if self.queue:
             truck.current_action = truck.Actions.WAITING
         else:
@@ -35,9 +47,19 @@ class UnloadStation:
         self.current_wait_time = sum(self.queue)
 
     def manage_queue(self) -> None:
+        """
+        Checks the status of the queue, if there is a truck present check its timer,
+        if the timer is 0 then the truck is done unloading and will be removed from the queue.
+        Once a truck is finished unloading, increment the total number of deposits by the truck and unloading site.
+        If there is a truck at the front of the queue and waiting, change its action to unloading.
+        Tally the total cumulated wait time for this queue.
+        """
         if self.queue:
-            truck = self.queue[0]
+            # increment the queue's total accumulated wait time by the length of the queue * the time step size
+            # but not couting the truck at the front of the queue, since it's not waiting.
             self.total_wait_time += len(self.queue[1:]) * 5
+
+            truck = self.queue[0]
             if truck.timer == 0:
                 # truck at front of queue finished unloading, remove it
                 print(

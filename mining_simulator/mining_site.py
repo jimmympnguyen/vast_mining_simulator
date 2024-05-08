@@ -28,7 +28,7 @@ class MiningSite:
         """Add a mining truck to the mining queue. Queue is maximum size of one and will return
         False if a second truck is attempts to add to the queue.
 
-        Sets the truck object's mining timer and action to mining.
+        Sets the truck object's timer and action to mining.
 
         Args:
             truck: an instance of a MiningTruck.
