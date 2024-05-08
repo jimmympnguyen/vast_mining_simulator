@@ -1,6 +1,6 @@
 import itertools
 
-from mining_truck import MiningTruck
+from mining_simulator.mining_truck import MiningTruck
 
 
 class UnloadStation:

@@ -1,7 +1,7 @@
 import itertools
 import random
 
-from mining_truck import MiningTruck
+from mining_simulator.mining_truck import MiningTruck
 
 
 class MiningSite:
