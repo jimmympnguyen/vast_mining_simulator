@@ -1,4 +1,5 @@
 import unittest
+
 import mock
 
 from mining_simulator.coordinator import MiningCoordinator
