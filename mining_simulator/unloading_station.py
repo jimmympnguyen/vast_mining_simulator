@@ -95,4 +95,7 @@ class UnloadStation:
     def output_statistics(self):
         """Helper function to format performance of unloading site."""
 
-        print(f"Unloading station {self.id} mined a total of {self.units_deposited}. ")
+        print(
+            f"Unloading station {self.id} received a total of {self.units_deposited} units He-3.\n"
+            f"Trucks waited for {self.total_wait_time} minutes to unload at station {self.id}.\n"
+            )

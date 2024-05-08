@@ -48,18 +48,18 @@ class MiningCoordinator:
                 mine.add_truck_to_queue(truck)
         for truck in self.trucks:
             truck.take_action()
-            print(truck)
+            # print(truck)
 
     def output_truck_statistics(self) -> None:
         sorted_trucks = sorted(
             self.trucks, key=lambda truck: truck.units_mined, reverse=True
         )
         for truck in sorted_trucks:
-            print(truck.output_statistics())
+            truck.output_statistics()
 
     def output_unloading_site_statistics(self) -> None:
         sorted_sites = sorted(
             self.unloading_stations, key=lambda site: site.units_deposited, reverse=True
         )
         for site in sorted_sites:
-            print(site.output_statistics())
+            site.output_statistics()
