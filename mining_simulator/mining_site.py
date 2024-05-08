@@ -5,6 +5,11 @@ from mining_simulator.mining_truck import MiningTruck
 
 
 class MiningSite:
+    """
+    Class to represent a mining site. Used to manage the addition and removal
+    of mining trucks from its queue.
+    """
+
     id_iter = itertools.count()
 
     def __init__(self) -> None:
@@ -12,12 +17,26 @@ class MiningSite:
         self.queue: list[MiningTruck] = []
 
     def __lt__(self, other) -> bool:
+        """Comparison dunder override on queue length to use min to sort."""
         return len(self.queue) < len(other.queue)
 
     def __eq__(self, other) -> bool:
+        """Comparison dunder override on queue length to use min to sort."""
         return len(self.queue) == len(other.queue)
 
     def add_truck_to_queue(self, truck: MiningTruck) -> bool:
+        """Add a mining truck to the mining queue. Queue is maximum size of one and will return
+        False if a second truck is attempts to add to the queue.
+
+        Sets the truck object's mining timer and action to mining.
+
+        Args:
+            truck: an instance of a MiningTruck.
+
+        Returns:
+            True if addition to queue was successful, False otherwise.
+        """
+
         if self.queue:
             # this will never happen, but just in case
             return False
@@ -31,6 +50,11 @@ class MiningSite:
         return True
 
     def manage_queue(self) -> None:
+        """
+        Checks the status of the queue, if there is a truck present check its timer,
+        if the timer is 0 then the truck is done mining and will be removed from the queue.
+        """
+
         if self.queue:
             truck = self.queue[0]
             if truck.timer == 0:
