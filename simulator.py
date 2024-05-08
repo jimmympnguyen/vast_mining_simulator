@@ -50,7 +50,10 @@ class MiningCoordinator:
             truck.output_statistics()
         pass
 
+
 4320
+
+
 class MinigTruckSimulator:
     """
     Class to configure and execute the mining simulation. Will run until enough
