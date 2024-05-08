@@ -31,7 +31,7 @@ class UnloadStation:
         else:
             truck.current_action = truck.Actions.UNLOADING
         self.queue.append(truck)
-        truck.timer = 5 # set to wait time
+        truck.timer = 5  # set to wait time
         self.current_wait_time = sum(self.queue)
 
     def manage_queue(self) -> None:
@@ -40,7 +40,9 @@ class UnloadStation:
             self.total_wait_time += len(self.queue[1:]) * 5
             if truck.timer == 0:
                 # truck at front of queue finished unloading, remove it
-                print(f"Truck {truck.id} has completed is unloading at station {self.id}!")
+                print(
+                    f"Truck {truck.id} has completed is unloading at station {self.id}!"
+                )
                 truck.units_mined += 1
                 self.units_deposited += 1
                 self.queue.pop(0)
@@ -50,8 +52,6 @@ class UnloadStation:
                 if truck.current_action == truck.Actions.WAITING:
                     # if there is a truck waiting in front of the line, let it begin unloading
                     truck.current_action = truck.Actions.UNLOADING
-                    print(f"Truck {truck.id} has moved to front of queue at station {self.id}!")
-
-
-
-
+                    print(
+                        f"Truck {truck.id} has moved to front of queue at station {self.id}!"
+                    )

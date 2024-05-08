@@ -2,6 +2,7 @@ import itertools
 from enum import Enum
 from typing import Tuple
 
+
 class MiningTruck:
     class Actions(Enum):
         WAITING = "Waiting"
@@ -30,9 +31,7 @@ class MiningTruck:
         self.units_mined = 0
 
     def __str__(self) -> str:
-        return (
-            f"Truck {self.id} is currently {self.current_action.value} with {self.timer} minutes left.\n"
-        )
+        return f"Truck {self.id} is currently {self.current_action.value} with {self.timer} minutes left.\n"
 
     def __add__(self, other) -> int:
         return self.timer + other
@@ -55,18 +54,18 @@ class MiningTruck:
     def next_action(self) -> Tuple[Actions, Locations]:
         # finished mining or unloading, start travelling to next location
         if self.current_action == self.Actions.MINING:
-            return(self.Actions.TRAVELLING, self.Locations.UNLOADING_STATION)
+            return (self.Actions.TRAVELLING, self.Locations.UNLOADING_STATION)
         elif self.current_action == self.Actions.UNLOADING:
-            return(self.Actions.TRAVELLING, self.Locations.MINE)
+            return (self.Actions.TRAVELLING, self.Locations.MINE)
         elif self.current_action == self.Actions.TRAVELLING:
             # finished travelling and arrived to location, waiting for assignment
             if self.current_location == self.Locations.MINE:
-                return(self.Actions.REQUEST_MINE, self.current_location)
+                return (self.Actions.REQUEST_MINE, self.current_location)
             elif self.current_location == self.Locations.UNLOADING_STATION:
-                return(self.Actions.REQUEST_QUEUE, self.current_location)
+                return (self.Actions.REQUEST_QUEUE, self.current_location)
         else:
             # default wait state
-            return(self.current_action, self.current_location)
+            return (self.current_action, self.current_location)
 
     def increment_counters(self):
         # truck needs to know the time step, dont love having 5 as magic number

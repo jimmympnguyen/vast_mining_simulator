@@ -28,7 +28,9 @@ class TestMiningStation(unittest.TestCase):
         result = self.mining_site1.add_truck_to_queue(self.mining_truck)
         self.assertTrue(result)
         self.assertTrue(self.mining_truck.timer > 0)
-        self.assertTrue(self.mining_truck.current_action == self.mining_truck.Actions.MINING)
+        self.assertTrue(
+            self.mining_truck.current_action == self.mining_truck.Actions.MINING
+        )
         self.assertTrue(len(self.mining_site1.queue) == 1)
 
     def test_add_truck_to_full_queue(self):
@@ -53,7 +55,3 @@ class TestMiningStation(unittest.TestCase):
         self.mining_site1.manage_queue()
         self.assertTrue(self.mining_truck.timer == 0)
         self.assertTrue(len(self.mining_site1.queue) == 0)
-
-
-
-

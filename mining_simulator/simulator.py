@@ -1,6 +1,7 @@
-from mining_station import UnloadStation
-from mining_truck import MiningTruck
-from mining_site import MiningSite
+from mining_simulator.mining_site import MiningSite
+from mining_simulator.mining_station import UnloadStation
+from mining_simulator.mining_truck import MiningTruck
+
 
 class MiningCoordinator:
     def __init__(self, num_trucks: int, num_stations: int):
@@ -46,5 +47,8 @@ class MinigTruckSimulator:
 
 
 if __name__ == "__main__":
-    sim = MinigTruckSimulator(num_trucks=1, num_stations=1,)
+    sim = MinigTruckSimulator(
+        num_trucks=1,
+        num_stations=1,
+    )
     sim.run_simulation()

@@ -25,7 +25,9 @@ class MiningSite:
         self.queue.append(truck)
         truck.timer = random.randint(1, 5) * 5
         truck.current_action = truck.Actions.MINING
-        print(f"Truck {truck.id} is now mining at mine {self.id} with duration of {truck.timer}!")
+        print(
+            f"Truck {truck.id} is now mining at mine {self.id} with duration of {truck.timer}!"
+        )
         return True
 
     def manage_queue(self) -> None:
