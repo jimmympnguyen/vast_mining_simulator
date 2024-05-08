@@ -4,6 +4,11 @@ from mining_simulator.mining_truck import MiningTruck
 
 
 class UnloadStation:
+    """
+    Class to represent an unloading station. Used to manage the addition and removal
+    of mining trucks from its queue. Records its statistics to measure performance.
+    """
+
     id_iter = itertools.count()
 
     def __init__(self) -> None:
