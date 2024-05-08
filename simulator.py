@@ -41,7 +41,7 @@ class MiningCoordinator:
             elif truck.current_action == truck.Actions.REQUEST_MINE:
                 mine = min(self.mining_sites)
                 mine.add_truck_to_queue(truck)
-
+        for truck in self.trucks:
             truck.take_action()
             print(truck)
 
@@ -50,7 +50,7 @@ class MiningCoordinator:
             truck.output_statistics()
         pass
 
-
+4320
 class MinigTruckSimulator:
     """
     Class to configure and execute the mining simulation. Will run until enough
@@ -59,7 +59,7 @@ class MinigTruckSimulator:
 
     def __init__(self) -> None:
         self.parameters = configparser.ConfigParser()
-        self.parameters.read("./sim_parameters.ini")
+        self.parameters.read("./mining_simulator/sim_parameters.ini")
 
         self.time_step = 0
         self.timestep_size_minutes = self.parameters.getint("sim", "sim_step_minutes")
@@ -78,6 +78,7 @@ class MinigTruckSimulator:
             print(f"Current time step: {self.time_step}")
             self.coordinator.time_step()
             self.time_step += self.timestep_size_minutes
+        self.coordinator.log_statistics()
 
 
 if __name__ == "__main__":

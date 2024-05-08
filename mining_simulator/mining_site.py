@@ -17,12 +17,12 @@ class MiningSite:
         self.id = next(self.id_iter)
         self.queue: list[MiningTruck] = []
         self.parameters = configparser.ConfigParser()
-        self.parameters.read("./sim_parameters.ini")
+        self.parameters.read("./mining_simulator/sim_parameters.ini")
         self.min_mine_time_hours = self.parameters.getint(
-            "mining", "min_mine_time_hours"
+            "mining", "min_mining_time_hours"
         )
         self.max_mine_time_hours = self.parameters.getint(
-            "mining", "max_mine_time_hours"
+            "mining", "max_mining_time_hours"
         )
 
     def __lt__(self, other) -> bool:

@@ -17,7 +17,7 @@ class UnloadStation:
         self.queue: list[MiningTruck] = []
 
         self.parameters = configparser.ConfigParser()
-        self.parameters.read("./sim_parameters.ini")
+        self.parameters.read("./mining_simulator/sim_parameters.ini")
         self.unload_time_minutes = self.parameters.getint(
             "unloading", "unload_time_minutes"
         )

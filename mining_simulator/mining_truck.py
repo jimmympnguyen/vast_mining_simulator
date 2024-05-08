@@ -35,7 +35,7 @@ class MiningTruck:
         self.current_location = self.Locations.MINE
 
         self.parameters = configparser.ConfigParser()
-        self.parameters.read("./sim_parameters.ini")
+        self.parameters.read("./mining_simulator/sim_parameters.ini")
         self.travel_time_minutes = self.parameters.getint(
             "truck", "travel_time_minutes"
         )
@@ -46,6 +46,7 @@ class MiningTruck:
         self.time_travelling = 0
         self.time_unloading = 0
         self.units_mined = 0
+        self.idk = 0
 
     def __str__(self) -> str:
         return f"Truck {self.id} is currently {self.current_action.value} with {self.timer} minutes left.\n"
@@ -103,16 +104,16 @@ class MiningTruck:
     def increment_counters(self):
         """Helper function to increment counters based on current action."""
 
-        # truck needs to know the time step, dont love having 5 as magic number
-        TIME_STEP = 5
         if self.current_action == self.Actions.WAITING:
-            self.time_waiting += TIME_STEP
-        if self.current_action == self.Actions.TRAVELLING:
-            self.time_travelling += TIME_STEP
-        if self.current_action == self.Actions.MINING:
-            self.time_mining += TIME_STEP
-        if self.current_action == self.Actions.UNLOADING:
-            self.time_unloading += TIME_STEP
+            self.time_waiting += self.sim_step_time_minutes
+        elif self.current_action == self.Actions.TRAVELLING:
+            self.time_travelling += self.sim_step_time_minutes
+        elif self.current_action == self.Actions.MINING:
+            self.time_mining += self.sim_step_time_minutes
+        elif self.current_action == self.Actions.UNLOADING:
+            self.time_unloading += self.sim_step_time_minutes
+        else:
+            self.idk += self.sim_step_time_minutes
 
     def output_statistics(self):
         """Helper function to format performance of mining truck."""
@@ -123,4 +124,5 @@ class MiningTruck:
             f"Spent {self.time_travelling} minutes travelling. "
             f"Spent {self.time_unloading} minutes unloading. "
             f"Spent {self.time_waiting} minutes waiting. "
+            f"Spent {self.idk} minutes messing around. "
         )
