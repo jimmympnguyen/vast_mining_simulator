@@ -14,11 +14,10 @@ class MiningTruck:
         """Enumerations for possible truck actions to control state machine."""
 
         WAITING = "Waiting"
-        TRAVELLING = "Travelling"
+        TRAVEL_TO_MINE = "Travel to Mine"
+        TRAVEL_TO_UNLOAD = "Travel to Unload"
         UNLOADING = "Unloading"
         MINING = "Mining"
-        REQUEST_QUEUE = "Request Queue"
-        REQUEST_MINE = "Request Mine"
 
     class Locations(Enum):
         """Enumerations for possible truck locations to control state machine."""
@@ -31,7 +30,7 @@ class MiningTruck:
     def __init__(self) -> None:
         self.id = next(self.id_iter)
         self.timer = 0
-        self.current_action = self.Actions.REQUEST_MINE
+        self.current_action = self.Actions.TRAVEL_TO_MINE
         self.current_location = self.Locations.MINE
 
         self.parameters = configparser.ConfigParser()
@@ -72,7 +71,10 @@ class MiningTruck:
 
         if self.timer == 0:
             self.current_action, self.current_location = self.next_action()
-            if self.current_action == self.Actions.TRAVELLING:
+            if (
+                self.current_action == self.Actions.TRAVEL_TO_MINE
+                or self.current_action == self.Actions.TRAVEL_TO_UNLOAD
+            ):
                 self.timer = self.travel_time_minutes
         else:
             self.timer -= self.sim_step_time_minutes
@@ -88,15 +90,13 @@ class MiningTruck:
 
         # finished mining or unloading, start travelling to next location
         if self.current_action == self.Actions.MINING:
-            return (self.Actions.TRAVELLING, self.Locations.UNLOADING_STATION)
+            return (self.Actions.TRAVEL_TO_UNLOAD, self.Locations.UNLOADING_STATION)
         elif self.current_action == self.Actions.UNLOADING:
-            return (self.Actions.TRAVELLING, self.Locations.MINE)
-        elif self.current_action == self.Actions.TRAVELLING:
-            # finished travelling
-            if self.current_location == self.Locations.MINE:
-                return (self.Actions.REQUEST_MINE, self.current_location)
-            elif self.current_location == self.Locations.UNLOADING_STATION:
-                return (self.Actions.REQUEST_QUEUE, self.current_location)
+            return (self.Actions.TRAVEL_TO_MINE, self.Locations.MINE)
+        elif self.current_action == self.Actions.TRAVEL_TO_MINE:
+            return (self.Actions.MINING, self.Locations.MINE)
+        elif self.current_action == self.Actions.TRAVEL_TO_UNLOAD:
+            return (self.Actions.UNLOADING, self.Locations.UNLOADING_STATION)
         else:
             # default state
             return (self.current_action, self.current_location)
@@ -106,7 +106,10 @@ class MiningTruck:
 
         if self.current_action == self.Actions.WAITING:
             self.time_waiting += self.sim_step_time_minutes
-        elif self.current_action == self.Actions.TRAVELLING:
+        elif (
+            self.current_action == self.Actions.TRAVEL_TO_MINE
+            or self.current_action == self.Actions.TRAVEL_TO_UNLOAD
+        ):
             self.time_travelling += self.sim_step_time_minutes
         elif self.current_action == self.Actions.MINING:
             self.time_mining += self.sim_step_time_minutes

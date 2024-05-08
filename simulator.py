@@ -34,12 +34,19 @@ class MiningCoordinator:
             station.manage_queue()
 
         for truck in self.trucks:
-            if truck.current_action == truck.Actions.REQUEST_QUEUE:
+            if (
+                truck.current_action == truck.Actions.TRAVEL_TO_UNLOAD
+                and truck.timer == 0
+            ):
                 station = min(self.deposit_stations)
                 print(f"adding truck {truck.id} to station {station.id}")
                 station.add_truck_to_queue(truck)
-            elif truck.current_action == truck.Actions.REQUEST_MINE:
+            elif (
+                truck.current_action == truck.Actions.TRAVEL_TO_MINE
+                and truck.timer == 0
+            ):
                 mine = min(self.mining_sites)
+                print(f"adding truck {truck.id} to mine {mine.id}")
                 mine.add_truck_to_queue(truck)
         for truck in self.trucks:
             truck.take_action()
@@ -49,9 +56,6 @@ class MiningCoordinator:
         for truck in self.trucks:
             truck.output_statistics()
         pass
-
-
-4320
 
 
 class MinigTruckSimulator:

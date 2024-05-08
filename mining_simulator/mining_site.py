@@ -52,7 +52,7 @@ class MiningSite:
 
         self.queue.append(truck)
         truck.timer = (
-            random.randint(self.min_mine_time_hours, self.max_mine_time_hours) * 60.0
+            random.randint(self.min_mine_time_hours, self.max_mine_time_hours) * 5.0
         )
         truck.current_action = truck.Actions.MINING
         print(
