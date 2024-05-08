@@ -1,5 +1,5 @@
 from mining_simulator.mining_site import MiningSite
-from mining_simulator.mining_station import UnloadStation
+from mining_simulator.unloading_station import UnloadStation
 from mining_simulator.mining_truck import MiningTruck
 
 
@@ -15,7 +15,7 @@ class MiningCoordinator:
     """
 
     def __init__(self, num_trucks: int, num_stations: int) -> None:
-        self.deposit_stations = [UnloadStation() for _ in range(num_stations)]
+        self.unloading_stations = [UnloadStation() for _ in range(num_stations)]
         self.trucks = [MiningTruck() for _ in range(num_trucks)]
         self.mining_sites = [MiningSite() for _ in range(num_trucks)]
 
@@ -28,7 +28,7 @@ class MiningCoordinator:
 
         for mine in self.mining_sites:
             mine.manage_queue()
-        for station in self.deposit_stations:
+        for station in self.unloading_stations:
             station.manage_queue()
 
         for truck in self.trucks:
@@ -36,7 +36,7 @@ class MiningCoordinator:
                 truck.current_action == truck.Actions.TRAVEL_TO_UNLOAD
                 and truck.timer == 0
             ):
-                station = min(self.deposit_stations)
+                station = min(self.unloading_stations)
                 print(f"adding truck {truck.id} to station {station.id}")
                 station.add_truck_to_queue(truck)
             elif (
@@ -50,7 +50,16 @@ class MiningCoordinator:
             truck.take_action()
             print(truck)
 
-    def log_statistics(self) -> None:
-        for truck in self.trucks:
-            truck.output_statistics()
-        pass
+    def output_truck_statistics(self) -> None:
+        sorted_trucks = sorted(
+            self.trucks, key=lambda truck: truck.units_mined, reverse=True
+        )
+        for truck in sorted_trucks:
+            print(truck.output_statistics())
+
+    def output_unloading_site_statistics(self) -> None:
+        sorted_sites = sorted(
+            self.unloading_stations, key=lambda site: site.units_deposited, reverse=True
+        )
+        for site in sorted_sites:
+            print(site.output_statistics())

@@ -71,3 +71,15 @@ class MiningSite:
             if truck.timer == 0:
                 print(f"Truck {truck.id} has completed mining at mine {self.id}!")
                 self.queue.pop(0)
+
+    def output_statistics(self):
+        """Helper function to format performance of unloading site."""
+
+        print(
+            f"Truck {self.id} mined a total of {self.units_mined}. "
+            f"Spent {self.time_mining} minutes mining. "
+            f"Spent {self.time_travelling} minutes travelling. "
+            f"Spent {self.time_unloading} minutes unloading. "
+            f"Spent {self.time_waiting} minutes waiting. "
+            f"Spent {self.idk} minutes messing around. "
+        )

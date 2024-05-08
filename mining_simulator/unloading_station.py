@@ -91,3 +91,8 @@ class UnloadStation:
                     print(
                         f"Truck {truck.id} has moved to front of queue at station {self.id}!"
                     )
+
+    def output_statistics(self):
+        """Helper function to format performance of unloading site."""
+
+        print(f"Unloading station {self.id} mined a total of {self.units_deposited}. ")

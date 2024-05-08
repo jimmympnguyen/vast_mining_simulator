@@ -61,7 +61,7 @@ class MiningTruck:
         Progress the state timer forward by one step. If action is complete, move to the next state.
         Tally time spent in each state to capture performance metrics.
         """
-
+        self.increment_counters()
         if self.timer == 0:
             self.current_action = self.next_action()
             if (
@@ -71,7 +71,6 @@ class MiningTruck:
                 self.timer = self.travel_time_minutes
         else:
             self.timer -= self.sim_step_time_minutes
-        self.increment_counters()
 
     def next_action(self) -> Actions:
         """

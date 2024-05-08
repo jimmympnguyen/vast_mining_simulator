@@ -30,7 +30,8 @@ class MinigTruckSimulator:
             print(f"Current time step: {self.time_step}")
             self.coordinator.time_step()
             self.time_step += self.timestep_size_minutes
-        self.coordinator.log_statistics()
+        self.coordinator.output_truck_statistics()
+        self.coordinator.output_unloading_site_statistics()
 
 
 if __name__ == "__main__":
