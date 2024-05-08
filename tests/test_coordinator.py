@@ -4,7 +4,7 @@ import mock
 
 from mining_simulator.coordinator import MiningCoordinator
 from mining_simulator.mining_site import MiningSite
-from mining_simulator.mining_station import UnloadStation
+from mining_simulator.unloading_station import UnloadStation
 from mining_simulator.mining_truck import MiningTruck
 
 
@@ -15,11 +15,13 @@ class TestMiningStation(unittest.TestCase):
     def test_instances(self):
         self.assertTrue(len(self.coordinator.mining_sites) == 1)
         self.assertTrue(len(self.coordinator.trucks) == 1)
-        self.assertTrue(len(self.coordinator.deposit_stations) == 2)
+        self.assertTrue(len(self.coordinator.unloading_stations) == 2)
 
         self.assertTrue(isinstance(self.coordinator.mining_sites[0], MiningSite))
         self.assertTrue(isinstance(self.coordinator.trucks[0], MiningTruck))
-        self.assertTrue(isinstance(self.coordinator.deposit_stations[0], UnloadStation))
+        self.assertTrue(
+            isinstance(self.coordinator.unloading_stations[0], UnloadStation)
+        )
 
     @mock.patch.object(MiningSite, "add_truck_to_queue")
     def test_add_truck_to_mine(self, mock_site: mock.Mock):
