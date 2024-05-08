@@ -1,3 +1,4 @@
+import configparser
 import itertools
 
 from mining_simulator.mining_truck import MiningTruck
@@ -14,6 +15,14 @@ class UnloadStation:
     def __init__(self) -> None:
         self.id = next(self.id_iter)
         self.queue: list[MiningTruck] = []
+
+        self.parameters = configparser.ConfigParser()
+        self.parameters.read("./sim_parameters.ini")
+        self.unload_time_minutes = self.parameters.getint(
+            "unloading", "unload_time_minutes"
+        )
+        self.sim_step_time_minutes = self.parameters.getint("sim", "sim_step_minutes")
+
         self.current_wait_time = 0
         self.total_wait_time = 0
         self.units_deposited = 0
@@ -48,7 +57,7 @@ class UnloadStation:
         else:
             truck.current_action = truck.Actions.UNLOADING
         self.queue.append(truck)
-        truck.timer = 5  # set to wait time
+        truck.timer = self.unload_time_minutes
         self.current_wait_time = sum(self.queue)
 
     def manage_queue(self) -> None:
@@ -62,7 +71,7 @@ class UnloadStation:
         if self.queue:
             # increment the queue's total accumulated wait time by the length of the queue * the time step size
             # but not couting the truck at the front of the queue, since it's not waiting.
-            self.total_wait_time += len(self.queue[1:]) * 5
+            self.total_wait_time += len(self.queue[1:]) * self.sim_step_time_minutes
 
             truck = self.queue[0]
             if truck.timer == 0:

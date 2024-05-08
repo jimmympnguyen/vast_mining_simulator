@@ -1,3 +1,5 @@
+import configparser
+
 from mining_simulator.mining_site import MiningSite
 from mining_simulator.mining_station import UnloadStation
 from mining_simulator.mining_truck import MiningTruck
@@ -15,11 +17,9 @@ class MiningCoordinator:
     """
 
     def __init__(self, num_trucks: int, num_stations: int) -> None:
-        self.num_trucks = num_trucks
-        self.num_stations = num_stations
-        self.deposit_stations = [UnloadStation() for _ in range(self.num_stations)]
-        self.trucks = [MiningTruck() for _ in range(self.num_trucks)]
-        self.mining_sites = [MiningSite() for _ in range(self.num_trucks)]
+        self.deposit_stations = [UnloadStation() for _ in range(num_stations)]
+        self.trucks = [MiningTruck() for _ in range(num_trucks)]
+        self.mining_sites = [MiningSite() for _ in range(num_trucks)]
 
     def time_step(self) -> None:
         """
@@ -55,29 +55,31 @@ class MinigTruckSimulator:
     """
     Class to configure and execute the mining simulation. Will run until enough
     time steps have elapsed the maximum defined time steps.
-
-    Args:
-        num_trucks: number of MiningTruck instances to create.
-        num_stations: number of UnloadingStation instances to create.
     """
 
-    def __init__(self, num_trucks: int, num_stations: int) -> None:
-        self.coordinator = MiningCoordinator(num_trucks, num_stations)
+    def __init__(self) -> None:
+        self.parameters = configparser.ConfigParser()
+        self.parameters.read("./sim_parameters.ini")
+
         self.time_step = 0
-        self.max_timestep = 50
+        self.timestep_size_minutes = self.parameters.getint("sim", "sim_step_minutes")
+        self.max_timestep_minutes = (
+            self.parameters.getint("sim", "sim_duration_hours") * 60.0
+        )
+
+        num_trucks = self.parameters.getint("sim", "num_trucks")
+        num_stations = self.parameters.getint("sim", "num_stations")
+        self.coordinator = MiningCoordinator(num_trucks, num_stations)
 
     def run_simulation(self) -> None:
         """Run simulation enough time steps have elapsed the maximum defined time steps."""
 
-        while self.time_step < self.max_timestep:
+        while self.time_step < self.max_timestep_minutes:
             print(f"Current time step: {self.time_step}")
             self.coordinator.time_step()
-            self.time_step += 5
+            self.time_step += self.timestep_size_minutes
 
 
 if __name__ == "__main__":
-    sim = MinigTruckSimulator(
-        num_trucks=1,
-        num_stations=1,
-    )
+    sim = MinigTruckSimulator()
     sim.run_simulation()

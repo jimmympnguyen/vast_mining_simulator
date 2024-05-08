@@ -1,3 +1,4 @@
+import configparser
 import itertools
 from enum import Enum
 from typing import Tuple
@@ -33,6 +34,13 @@ class MiningTruck:
         self.current_action = self.Actions.REQUEST_MINE
         self.current_location = self.Locations.MINE
 
+        self.parameters = configparser.ConfigParser()
+        self.parameters.read("./sim_parameters.ini")
+        self.travel_time_minutes = self.parameters.getint(
+            "truck", "travel_time_minutes"
+        )
+        self.sim_step_time_minutes = self.parameters.getint("sim", "sim_step_minutes")
+
         self.time_waiting = 0
         self.time_mining = 0
         self.time_travelling = 0
@@ -64,9 +72,9 @@ class MiningTruck:
         if self.timer == 0:
             self.current_action, self.current_location = self.next_action()
             if self.current_action == self.Actions.TRAVELLING:
-                self.timer = 30
+                self.timer = self.travel_time_minutes
         else:
-            self.timer -= 5
+            self.timer -= self.sim_step_time_minutes
         self.increment_counters()
 
     def next_action(self) -> Tuple[Actions, Locations]:
