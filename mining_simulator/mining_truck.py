@@ -19,19 +19,12 @@ class MiningTruck:
         UNLOADING = "Unloading"
         MINING = "Mining"
 
-    class Locations(Enum):
-        """Enumerations for possible truck locations to control state machine."""
-
-        MINE = "Mine"
-        UNLOADING_STATION = "Unloading Station"
-
     id_iter = itertools.count()
 
     def __init__(self) -> None:
         self.id = next(self.id_iter)
         self.timer = 0
         self.current_action = self.Actions.TRAVEL_TO_MINE
-        self.current_location = self.Locations.MINE
 
         self.parameters = configparser.ConfigParser()
         self.parameters.read("./mining_simulator/sim_parameters.ini")
@@ -70,7 +63,7 @@ class MiningTruck:
         """
 
         if self.timer == 0:
-            self.current_action, self.current_location = self.next_action()
+            self.current_action = self.next_action()
             if (
                 self.current_action == self.Actions.TRAVEL_TO_MINE
                 or self.current_action == self.Actions.TRAVEL_TO_UNLOAD
@@ -80,26 +73,25 @@ class MiningTruck:
             self.timer -= self.sim_step_time_minutes
         self.increment_counters()
 
-    def next_action(self) -> Tuple[Actions, Locations]:
+    def next_action(self) -> Actions:
         """
         State machine control, see README for more details.
 
         Returns:
-            tuple of next state actions and locations.
+            Returns next truck state Action.
         """
 
-        # finished mining or unloading, start travelling to next location
         if self.current_action == self.Actions.MINING:
-            return (self.Actions.TRAVEL_TO_UNLOAD, self.Locations.UNLOADING_STATION)
+            return self.Actions.TRAVEL_TO_UNLOAD
         elif self.current_action == self.Actions.UNLOADING:
-            return (self.Actions.TRAVEL_TO_MINE, self.Locations.MINE)
+            return self.Actions.TRAVEL_TO_MINE
         elif self.current_action == self.Actions.TRAVEL_TO_MINE:
-            return (self.Actions.MINING, self.Locations.MINE)
+            return self.Actions.MINING
         elif self.current_action == self.Actions.TRAVEL_TO_UNLOAD:
-            return (self.Actions.UNLOADING, self.Locations.UNLOADING_STATION)
+            return self.Actions.UNLOADING
         else:
             # default state
-            return (self.current_action, self.current_location)
+            return self.current_action
 
     def increment_counters(self):
         """Helper function to increment counters based on current action."""
