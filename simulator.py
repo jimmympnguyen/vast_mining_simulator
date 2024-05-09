@@ -1,6 +1,7 @@
 import configparser
 import logging
 import sys
+from datetime import datetime
 
 from mining_simulator.coordinator import MiningCoordinator
 
@@ -52,7 +53,8 @@ class MinigTruckSimulator:
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
-        file_handler = logging.FileHandler("test.log")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_handler = logging.FileHandler(f"simulation_{timestamp}.log")
         file_handler.setLevel(logging.DEBUG)
         logger.addHandler(file_handler)
 
