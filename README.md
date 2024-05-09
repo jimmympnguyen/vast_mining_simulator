@@ -17,4 +17,4 @@ This software was developed by Jimmy Nguyen using Python 3.9.13
 ## SOFTWARE INFO
 
 ### STATE MACHINE OVERVIEW
-![State Space Diagram for Mining Simulator]("./mining_state_diagram.png")
+![State Space Diagram for Mining Simulator]("mining_state_diagram.png")
