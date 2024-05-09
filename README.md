@@ -7,7 +7,7 @@ This software was developed by Jimmy Nguyen using Python 3.9.13
 1. Activate the environment
 1. Install packages ```python -m pip install -r requirements.txt```
 
-### RUNNING SIMULATOR
+### RUN SIMULATOR
 1. Configure simulation parameters in ```sim_parameters.ini```
 1. From root folder run ```python ./simulator.py```
 
