@@ -55,7 +55,7 @@ class MiningSite:
 
         self.queue.append(truck)
         truck.timer = (
-            random.randint(self.min_mine_time_hours, self.max_mine_time_hours) * 60
+            random.uniform(self.min_mine_time_hours, self.max_mine_time_hours) * 60
         )
         truck.current_action = truck.Actions.MINING
         logger.debug(
@@ -76,15 +76,3 @@ class MiningSite:
                     f"Truck {truck.id} has completed mining at mine {self.id}!"
                 )
                 self.queue.pop(0)
-
-    def output_statistics(self) -> None:
-        """Function to log performance of unloading site."""
-
-        logger.info(
-            f"Truck {self.id} mined a total of {self.units_mined}. "
-            f"Spent {self.time_mining} minutes mining. "
-            f"Spent {self.time_travelling} minutes travelling. "
-            f"Spent {self.time_unloading} minutes unloading. "
-            f"Spent {self.time_waiting} minutes waiting. "
-            f"Spent {self.idk} minutes messing around. "
-        )
