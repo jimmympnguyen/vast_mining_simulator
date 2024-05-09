@@ -55,6 +55,8 @@ class MiningCoordinator:
             # print(truck)
 
     def output_truck_statistics(self) -> None:
+        """Sort trucks by quantity He-3 mined in descending order and log statistics."""
+
         sorted_trucks = sorted(
             self.trucks, key=lambda truck: truck.units_mined, reverse=True
         )
@@ -62,6 +64,8 @@ class MiningCoordinator:
             truck.output_statistics()
 
     def output_unloading_site_statistics(self) -> None:
+        """Sort unloading sites by quantity He-3 received in descending order and log statistics."""
+
         sorted_sites = sorted(
             self.unloading_stations, key=lambda site: site.units_deposited, reverse=True
         )

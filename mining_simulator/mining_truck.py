@@ -43,6 +43,8 @@ class MiningTruck:
         self.idk = 0
 
     def __str__(self) -> str:
+        """For debugging state of truck."""
+
         return f"Truck {self.id} is currently {self.current_action.value} with {self.timer} minutes left.\n"
 
     def __add__(self, other) -> int:

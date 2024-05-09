@@ -39,6 +39,8 @@ class UnloadStation:
         return self.current_wait_time == other.current_wait_time
 
     def __str__(self) -> str:
+        """For debugging state of unloading station."""
+
         return (
             f"Unload Station {self.id} has {len(self.queue)} waiting "
             f"Mining Trucks and a wait time of {self.current_wait_time} minutes."
