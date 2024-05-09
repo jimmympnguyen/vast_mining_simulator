@@ -21,7 +21,7 @@ class MinigTruckSimulator:
         self.time_step = 0
         self.timestep_size_minutes = self.parameters.getint("sim", "sim_step_minutes")
         self.max_timestep_minutes = (
-            self.parameters.getint("sim", "sim_duration_hours") * 60.0
+            self.parameters.getint("sim", "sim_duration_hours") * 60
         )
 
         self.num_trucks = self.parameters.getint("sim", "num_trucks")
