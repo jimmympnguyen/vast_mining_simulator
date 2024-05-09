@@ -1,7 +1,9 @@
 import configparser
 import itertools
+import logging
 from enum import Enum
-from typing import Tuple
+
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 class MiningTruck:
@@ -110,9 +112,9 @@ class MiningTruck:
             self.idk += self.sim_step_time_minutes
 
     def output_statistics(self):
-        """Helper function to format performance of mining truck."""
+        """Function to log performance of mining truck."""
 
-        print(
+        logger.info(
             f"Truck {self.id} mined a total of {self.units_mined} units He-3.\n"
             f"Truck {self.id} total time spent: \n"
             f"  {self.time_mining} minutes mining.\n"

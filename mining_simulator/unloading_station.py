@@ -1,7 +1,10 @@
 import configparser
 import itertools
+import logging
 
 from mining_simulator.mining_truck import MiningTruck
+
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 class UnloadStation:
@@ -76,7 +79,7 @@ class UnloadStation:
             truck = self.queue[0]
             if truck.timer == 0:
                 # truck at front of queue finished unloading, remove it
-                print(
+                logger.debug(
                     f"Truck {truck.id} has completed is unloading at station {self.id}!"
                 )
                 truck.units_mined += 1
@@ -88,14 +91,14 @@ class UnloadStation:
                 if truck.current_action == truck.Actions.WAITING:
                     # if there is a truck waiting in front of the line, let it begin unloading
                     truck.current_action = truck.Actions.UNLOADING
-                    print(
+                    logger.debug(
                         f"Truck {truck.id} has moved to front of queue at station {self.id}!"
                     )
 
     def output_statistics(self):
         """Helper function to format performance of unloading site."""
 
-        print(
+        logger.info(
             f"Unloading station {self.id} received a total of {self.units_deposited} units He-3.\n"
             f"Trucks waited for {self.total_wait_time} minutes to unload at station {self.id}.\n"
-            )
+        )

@@ -1,7 +1,7 @@
 import unittest
 
-from mining_simulator.unloading_station import UnloadStation
 from mining_simulator.mining_truck import MiningTruck
+from mining_simulator.unloading_station import UnloadStation
 
 
 class TestMiningStation(unittest.TestCase):

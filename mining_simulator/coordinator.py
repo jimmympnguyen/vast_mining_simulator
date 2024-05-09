@@ -1,6 +1,10 @@
+import logging
+
 from mining_simulator.mining_site import MiningSite
-from mining_simulator.unloading_station import UnloadStation
 from mining_simulator.mining_truck import MiningTruck
+from mining_simulator.unloading_station import UnloadStation
+
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 class MiningCoordinator:
@@ -37,14 +41,14 @@ class MiningCoordinator:
                 and truck.timer == 0
             ):
                 station = min(self.unloading_stations)
-                print(f"adding truck {truck.id} to station {station.id}")
+                logger.debug(f"adding truck {truck.id} to station {station.id}")
                 station.add_truck_to_queue(truck)
             elif (
                 truck.current_action == truck.Actions.TRAVEL_TO_MINE
                 and truck.timer == 0
             ):
                 mine = min(self.mining_sites)
-                print(f"adding truck {truck.id} to mine {mine.id}")
+                logger.debug(f"adding truck {truck.id} to mine {mine.id}")
                 mine.add_truck_to_queue(truck)
         for truck in self.trucks:
             truck.take_action()

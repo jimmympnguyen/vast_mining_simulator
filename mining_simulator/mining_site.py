@@ -1,8 +1,11 @@
 import configparser
 import itertools
+import logging
 import random
 
 from mining_simulator.mining_truck import MiningTruck
+
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 class MiningSite:
@@ -55,7 +58,7 @@ class MiningSite:
             random.randint(self.min_mine_time_hours, self.max_mine_time_hours) * 5.0
         )
         truck.current_action = truck.Actions.MINING
-        print(
+        logger.debug(
             f"Truck {truck.id} is now mining at mine {self.id} with duration of {truck.timer}!"
         )
         return True
@@ -69,13 +72,15 @@ class MiningSite:
         if self.queue:
             truck = self.queue[0]
             if truck.timer == 0:
-                print(f"Truck {truck.id} has completed mining at mine {self.id}!")
+                logger.debug(
+                    f"Truck {truck.id} has completed mining at mine {self.id}!"
+                )
                 self.queue.pop(0)
 
-    def output_statistics(self):
-        """Helper function to format performance of unloading site."""
+    def output_statistics(self) -> None:
+        """Function to log performance of unloading site."""
 
-        print(
+        logger.info(
             f"Truck {self.id} mined a total of {self.units_mined}. "
             f"Spent {self.time_mining} minutes mining. "
             f"Spent {self.time_travelling} minutes travelling. "
