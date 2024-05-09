@@ -20,7 +20,7 @@ class MiningSite:
         self.id = next(self.id_iter)
         self.queue: list[MiningTruck] = []
         self.parameters = configparser.ConfigParser()
-        self.parameters.read("./mining_simulator/sim_parameters.ini")
+        self.parameters.read("./sim_parameters.ini")
         self.min_mine_time_hours = self.parameters.getint(
             "mining", "min_mining_time_hours"
         )

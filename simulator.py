@@ -16,7 +16,7 @@ class MinigTruckSimulator:
 
     def __init__(self) -> None:
         self.parameters = configparser.ConfigParser()
-        self.parameters.read("./mining_simulator/sim_parameters.ini")
+        self.parameters.read("./sim_parameters.ini")
 
         self.time_step = 0
         self.timestep_size_minutes = self.parameters.getint("sim", "sim_step_minutes")
@@ -38,7 +38,7 @@ class MinigTruckSimulator:
 
     def setup_logger(self) -> None:
         """Setup logging."""
-        verbose = False
+        verbose = self.parameters.getboolean("misc", "verbose")
         logger = logging.getLogger()
         logger.setLevel(logging.DEBUG)
 

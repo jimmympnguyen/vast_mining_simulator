@@ -29,7 +29,7 @@ class MiningTruck:
         self.current_action = self.Actions.TRAVEL_TO_MINE
 
         self.parameters = configparser.ConfigParser()
-        self.parameters.read("./mining_simulator/sim_parameters.ini")
+        self.parameters.read("./sim_parameters.ini")
         self.travel_time_minutes = self.parameters.getint(
             "truck", "travel_time_minutes"
         )
