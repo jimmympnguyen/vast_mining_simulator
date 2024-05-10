@@ -117,7 +117,7 @@ class MiningTruck:
         """Function to log performance of mining truck."""
 
         logger.info(
-            f"Truck {self.id} mined a total of {self.units_mined} units He-3.\n"
+            f"\nTruck {self.id} mined a total of {self.units_mined} units He-3.\n"
             f"Truck {self.id} total time spent: \n"
             f"  {self.time_mining} minutes mining.\n"
             f"  {self.time_travelling} minutes travelling.\n"
